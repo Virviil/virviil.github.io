@@ -8,8 +8,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    byebug (10.0.2)
-    coderay (1.1.2)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -208,7 +206,6 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     mercenary (0.3.6)
-    method_source (0.9.0)
     mini_portile2 (2.3.0)
     minima (2.4.0)
       jekyll (~> 3.5)
@@ -221,17 +218,8 @@ GEM
       mini_portile2 (~> 2.3.0)
     octokit (4.8.0)
       sawyer (~> 0.8.0, >= 0.5.3)
-    octopress-debugger (1.0.2)
-      jekyll
-      pry-byebug
     pathutil (0.16.1)
       forwardable-extended (~> 2.6)
-    pry (0.11.3)
-      coderay (~> 1.1.0)
-      method_source (~> 0.9.0)
-    pry-byebug (3.6.0)
-      byebug (~> 10.0)
-      pry (~> 0.10)
     public_suffix (2.0.5)
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
@@ -264,12 +252,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  jekyll (~> 3.7.3)
-  jekyll-feed
   jekyll-whiteglass
-  minima (~> 2.0)
-  octopress-debugger
-  tzinfo-data
 
 BUNDLED WITH
    1.16.1

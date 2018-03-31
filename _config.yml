@@ -26,7 +26,8 @@ google_analytics: UA-85947897-1
 
 # Build settings
 markdown: kramdown
-theme: jekyll-whiteglass
+remote_theme: yous/whiteglass
+
 plugins:
   - jekyll-feed
   - jekyll-paginate

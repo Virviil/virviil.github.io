@@ -71,6 +71,7 @@ Here comes two main errors:
     {:ok, %{}}
   end
   ```
+
   Don't you think, that the brackets here are unnecessary? I'm sure, that they do!
   Brackets here have no sense, so - just don't use them!
 
@@ -81,8 +82,10 @@ Here comes two main errors:
   tuple = {"Joe", 21}
   list = ["Joe", 21]
   ```
+
   And you are trying to wrap them into brackets?
-  ```
+
+  ```elixir
   def init([%{name: "Joe", age: 21}]) do
     {:ok, %{name: "Joe", age: 21}}
   end
@@ -106,7 +109,7 @@ def init(state) do
 end
 ```
 
-Basicly saying, it's the only one reason to add **one** argument in **brackets**:
+Basically saying, it's the only one reason to add **one** argument in **brackets**:
 
 * you **want** your **GenServer's state** to be **list** with **one** element after initialization
 * you **don't want** to **redefine** `init/1`
@@ -227,7 +230,7 @@ We'll not discuss neither "Do I really need this?", nor "Is this pattern or anti
   end
   ```
 
-As you see, nowbody knows what arity will be your `start_link` function.
+As you see, nobody knows what arity will be your `start_link` function.
 And this is a place where problems are beginning. This is a portal to the **brackets hell**...
 
 ## Child spec: It's dangerous to go alone! Take this
@@ -260,13 +263,13 @@ Let's look at the child spec example for previously defined crazy **Foo** module
 ```
 
 Parameters are described [here](https://hexdocs.pm/elixir/Supervisor.html#module-child-specification),
-so don't think that it's nessesary to repeat that again.
+so don't think that it's necessary to repeat that again.
 
 You see here thee crazy brackets inside `start` tuple. So the question here is:
 
 > Do I really need these brackets here? May be, if I have only one argument, I can ommit them?
 
-I don't want to dissapoint you, but these brackets have special sense, and should be here mandatory.
+I don't want to disappoint you, but these brackets have special sense, and should be here mandatory.
 
 But I'll try to explain you this brackets step by step.
 
@@ -297,7 +300,7 @@ iex> apply(Enum, :reverse, [[1, 2, 3]])
 
 As you see, `apply/3` doesn't know how many arguments your function has.
 Thats why he asks you to put these arguments into list.
-Event if you have **ne** argument - this arguments still should be in brackets.
+Event if you have **one** argument - this arguments still should be in brackets.
 This is separately pointed in `apply/3`**typespec**.
 
 The most crazy moment appears, when you have only *one* argument, and it is a **list** (like in the example) -
@@ -389,9 +392,9 @@ MyGenServer.start_link(arg)
 Obviously, you can redefine this `child_spec/1` function. But remember, that is has arity 1.
 Thus, if you want to define everything dynamically - you should wrap your data into data structure:
 
-```
+```elixir
 def child_spec({id, {_module, _fun, args} = start, restart, shutdown}) do
-	%{
+  %{
       id: id,
       ...
     }
@@ -400,7 +403,7 @@ end
 # or
 
 def child_spec([id, {_module, _fun, args} = start, restart, shutdown]) do
-	%{
+  %{
       id: id
       ...
     }
@@ -417,7 +420,7 @@ end
 # Never Ever Do This At Home
 
 def child_spec(id, {_module, _fun, args} = start, restart, shutdown) do
-	%{
+  %{
       id: id
       ...
     }
@@ -545,8 +548,8 @@ That's why we simply pass _child spec_ - and new worker starts to work!
 
 ### :simple_one_for_one
 
-With `:simple_one_for_one` startegy, we define _child spec_ for our children at the same time,
-when we initialize the **Supervisor**, but children are started _dynamicly_. Here the problems come.
+With `:simple_one_for_one` strategy, we define _child spec_ for our children at the same time,
+when we initialize the **Supervisor**, but children are started _dynamically_. Here the problems come.
 
 At the time when the **Supervisor** is initializing, we don't know what _args_ will be required by different workers,
 that will be started in the future.
@@ -752,7 +755,7 @@ I'll just try to give you last ideas explicetly - may be following these rules w
 **From** branches **to** roots. After all, **workers** will do the business job - they are main.
 And, as you've seen in this article - you will have **all** instruments to start your workers properly -
 doesn't metter how **workers** are defined.
-So, don't make _data repacking_ in `init` or `start_link` functions - pass nessesary data directly from **supervisor**
+So, don't make _data repacking_ in `init` or `start_link` functions - pass necessary data directly from **supervisor**
 
 * Try to follow `KISS` - don't bring unnesessary complicity to your program.
 For example, don't redefine `init` in your **GenServer** if you can simply pass it's initial state
@@ -760,7 +763,7 @@ from `start_link` function. And don't redefine `child_spec` function,
 if you are creating simple **GenServer** worker - better use arguments for `__using__` macro.
 
 * The main _thick_ point of your _args flow_ should be `child_spec` function. Even if everything is absolutely unique,
-and not standart, try to make `init`, `start_link` as usual as possible from one side,
+and not standard, try to make `init`, `start_link` as usual as possible from one side,
 and try not to use **child spec** directly in `Supervisor.init` - from the other.
 `child_spec` function can hold all the logic about **how to start my worker**
 
